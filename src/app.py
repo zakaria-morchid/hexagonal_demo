@@ -5,9 +5,11 @@ projects = gl.projects.list()
 
 # Utilisation normale
 for p in projects:
-    print(f"🔹 Project: {p.name} ({p.visibility})")
-    print(f"    Namespace: {p.namespace.name}/{p.namespace.path}")
-    print("    Merge Requests:")
+    print(f"🔹 Project: {p.name}")
+    print("    MRs:")
     for mr in p.mergerequests.list():
-        print(f"      - [{mr.state.upper()}] {mr.title}")
+        for reviewer in mr.reviewers:
+            reviewer_name = reviewer.get("name", "Inconnu")
+            has_approved = reviewer.get("approved", False)
+            print(f"      - {'OK' if has_approved else '  '} {reviewer_name}")
     print()

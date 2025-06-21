@@ -22,6 +22,15 @@ def to_mock_merge_request(mr):
     mock.title = mr.title
     mock.state = mr.state
     mock.project_id = mr.project_id
+
+    author_mock = MagicMock()
+    author_mock.name = mr.author_name
+    mock.author = author_mock
+
+    # Transforme chaque Reviewer en dictionnaire simulé
+    mock.reviewers = [
+        {"name": r.name, "approved": r.approved} for r in mr.reviewers
+    ]
     return mock
 
 def get_mock_gitlab_client():
