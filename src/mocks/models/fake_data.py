@@ -1,98 +1,96 @@
 from .datamodels import Namespace, Project, MergeRequest, Reviewer, User
 from .datamodels import Source
+from random import choice, randint
 
-
-zakaria = User(id=1, username="zmorchid", name="Zakaria")
-souleyman = User(id=2, username="souleyman", name="Souleyman")
-cedric = User(id=3, username="cedric", name="Cédric")
-nabil = User(id=4, username="nabil", name="Nabil")
-
-namespace_iac = Namespace(id=1, name="iac", path="do-amont/automatisation/iac")
-namespace_middleware = Namespace(id=2, name="middleware", path="do-amont/socle-technique/middleware")
-namespace_sti = Namespace(id=3, name="sti", path="do-amont/services-techniques-and-industrialisation/supervision")
-
-
-merge_requests_project_1 = [
-    MergeRequest(
-        id=101,
-        title="Fix login",
-        state="opened",
-        project_id=1,
-        author=zakaria,
-        reviewers=[
-            Reviewer(user=souleyman, approved=True),
-            Reviewer(user=cedric, approved=False)
-        ]
-    ),
-    MergeRequest(
-        id=102,
-        title="Refactor infra module",
-        state="opened",
-        project_id=1,
-        author=nabil,
-        reviewers=[
-            Reviewer(user=zakaria, approved=True)
-        ]
-    ),
+# Utilisateurs de référence
+users = [
+    User(id=1, username="zmorchid", name="Zakaria"),
+    User(id=2, username="souleyman", name="Souleyman"),
+    User(id=3, username="cedric", name="Cédric"),
+    User(id=4, username="nabil", name="Nabil"),
+    User(id=5, username="amina", name="Amina"),
+    User(id=6, username="lucas", name="Lucas"),
 ]
 
-merge_requests_project_2 = [
-    MergeRequest(
-        id=201,
-        title="Fix login",
-        state="opened",
-        project_id=2,
-        author=zakaria,
-        reviewers=[
-            Reviewer(user=souleyman, approved=True),
-            Reviewer(user=cedric, approved=False)
-        ]
-    ),
+# Espaces de nommage
+namespaces = [
+    Namespace(id=1, name="iac", path="do-amont/automatisation/iac"),
+    Namespace(id=2, name="middleware", path="do-amont/socle-technique/middleware"),
+    Namespace(id=3, name="sti", path="do-amont/services-techniques-and-industrialisation/supervision"),
 ]
 
-merge_requests_project_3 = []
+# Générateur de MergeRequest avec variations
+def generate_merge_requests(project_id: int, count: int) -> list[MergeRequest]:
+    mrs = []
+    for i in range(count):
+        author = choice(users)
+        title = choice([
+            "Fix login", "Improve error handling", "Add CI pipeline", "Refactor auth service", "Update README"
+        ])
+        reviewers = [
+            Reviewer(user=choice(users), approved=bool(randint(0, 1)))
+            for _ in range(randint(1, 3))
+        ]
+        mrs.append(MergeRequest(
+            id=project_id * 100 + i,
+            title=title,
+            state=choice(["opened", "closed", "merged"]),
+            project_id=project_id,
+            author=author,
+            reviewers=reviewers
+        ))
+    return mrs
 
-merge_requests_project_4 = []
-
+# Projets variés
 projects = [
     Project(
         id=1,
         name="infra-as-code",
-        description="infrastructure as code",
+        description="Provision infrastructure using code",
         visibility="private",
-        web_url=f"https://fake.gitlab.com/{namespace_iac.path}/infra-as-code",
-        namespace=namespace_iac,
-        mergerequests=merge_requests_project_1,
-        source=Source.GITHUB
+        web_url="https://fake.gitlab.com/iac/infra-as-code",
+        namespace=namespaces[0],
+        mergerequests=generate_merge_requests(1, 3),
+        source=choice([Source.GITHUB, Source.GITLAB])
     ),
     Project(
         id=2,
         name="vault-as-code",
-        description="vault as code",
-        visibility="private",
-        web_url=f"https://fake.gitlab.com/{namespace_iac.path}/vault-as-code",
-        namespace=namespace_iac,
-        mergerequests=merge_requests_project_2,
-        source=Source.GITLAB
+        description="Manage Vault secrets as code",
+        visibility="public",
+        web_url="https://fake.gitlab.com/iac/vault-as-code",
+        namespace=namespaces[0],
+        mergerequests=generate_merge_requests(2, 2),
+        source=choice([Source.GITHUB, Source.GITLAB])
     ),
     Project(
         id=3,
         name="tomcat",
-        description="tomcat",
-        visibility="private",
-        web_url=f"https://fake.gitlab.com/{namespace_middleware.path}/tomcat",
-        namespace=namespace_middleware,
-        mergerequests=merge_requests_project_3,
-        source=Source.GITHUB
+        description="Configuration de Tomcat pour production",
+        visibility="internal",
+        web_url="https://fake.gitlab.com/middleware/tomcat",
+        namespace=namespaces[1],
+        mergerequests=generate_merge_requests(3, 1),
+        source=choice([Source.GITHUB, Source.GITLAB])
     ),
     Project(
         id=4,
         name="vmarket-ansible",
-        description="vmarket ansible",
+        description="Déploiement Ansible de VMarket",
         visibility="private",
-        web_url=f"https://fake.gitlab.com/{namespace_sti.path}/vmarket-ansible",
-        namespace=namespace_sti,
-        mergerequests=merge_requests_project_4,
-        source=Source.GITLAB
-    )
+        web_url="https://fake.gitlab.com/sti/vmarket-ansible",
+        namespace=namespaces[2],
+        mergerequests=generate_merge_requests(4, 0),
+        source=choice([Source.GITHUB, Source.GITLAB])
+    ),
+    Project(
+        id=5,
+        name="docker-images",
+        description="Gestion des images Docker de base",
+        visibility="private",
+        web_url="https://fake.gitlab.com/sti/docker-images",
+        namespace=namespaces[2],
+        mergerequests=generate_merge_requests(5, 4),
+        source=choice([Source.GITHUB, Source.GITLAB])
+    ),
 ]
