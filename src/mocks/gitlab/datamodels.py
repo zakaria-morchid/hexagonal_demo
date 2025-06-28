@@ -2,11 +2,29 @@ from dataclasses import dataclass
 from typing import List
 
 @dataclass
+class User:
+    id: int
+    username: str
+    name: str
+@dataclass
 class Namespace:
     id: int
     name: str
     path: str
 
+@dataclass
+class Reviewer:
+    user: User
+    approved: bool
+
+@dataclass
+class MergeRequest:
+    id: int
+    title: str
+    state: str
+    project_id: int
+    author: User
+    reviewers: List[Reviewer]
 @dataclass
 class Project:
     id: int
@@ -15,18 +33,8 @@ class Project:
     visibility: str
     web_url: str
     namespace: Namespace
-@dataclass
-class Reviewer:
-    name: str
-    approved: bool
-@dataclass
-class MergeRequest:
-    id: int
-    title: str
-    state: str
-    project_id: int
-    author_name: str
-    reviewers: List[Reviewer] # liste de dicts avec `name` et `approved`
+    mergerequests: List[MergeRequest]
+
 
 
 

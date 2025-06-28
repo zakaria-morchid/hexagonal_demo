@@ -1,3 +1,4 @@
-from .fake_gitlab import get_mock_gitlab_client
+from .fake_gitlab import FakeGitlab
+from .fake_data import projects
 
-gl = get_mock_gitlab_client()
+gl = FakeGitlab(projects)

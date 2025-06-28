@@ -7,9 +7,10 @@ projects = gl.projects.list()
 for p in projects:
     print(f"🔹 Project: {p.name}")
     print("    MRs:")
-    for mr in p.mergerequests.list():
+    mr_manager = gl.projects.get_merge_requests(p.id)
+    for mr in mr_manager.list():
+        print(f"      - {mr.title} ({mr.state})")
         for reviewer in mr.reviewers:
-            reviewer_name = reviewer.get("name", "Inconnu")
-            has_approved = reviewer.get("approved", False)
-            print(f"      - {'OK' if has_approved else '  '} {reviewer_name}")
+            has_approved = reviewer.approved
+            print(f"           - {'OK' if has_approved else '  '} {reviewer.user.name}")
     print()
