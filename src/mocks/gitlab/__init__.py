@@ -1,4 +1,4 @@
 from .fake_gitlab import FakeGitlab
-from .fake_data import projects
+from ..models.fake_data import projects
 
 gl = FakeGitlab(projects)

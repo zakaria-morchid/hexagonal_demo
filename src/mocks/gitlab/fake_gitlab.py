@@ -1,5 +1,5 @@
 from unittest.mock import MagicMock
-from .datamodels import Project, MergeRequest
+from ..models.datamodels import Project, MergeRequest
 
 
 class FakeMergeRequestManager:
