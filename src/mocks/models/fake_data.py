@@ -63,7 +63,7 @@ projects = [
         web_url=f"https://fake.gitlab.com/{namespace_iac.path}/infra-as-code",
         namespace=namespace_iac,
         mergerequests=merge_requests_project_1,
-        source=Source.GITLAB
+        source=Source.GITHUB
     ),
     Project(
         id=2,
@@ -73,7 +73,7 @@ projects = [
         web_url=f"https://fake.gitlab.com/{namespace_iac.path}/vault-as-code",
         namespace=namespace_iac,
         mergerequests=merge_requests_project_2,
-        source=Source.GITHUB
+        source=Source.GITLAB
     ),
     Project(
         id=3,
@@ -93,6 +93,6 @@ projects = [
         web_url=f"https://fake.gitlab.com/{namespace_sti.path}/vmarket-ansible",
         namespace=namespace_sti,
         mergerequests=merge_requests_project_4,
-        source=Source.GITHUB
+        source=Source.GITLAB
     )
 ]
