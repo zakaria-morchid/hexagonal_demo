@@ -41,4 +41,4 @@ def get_user_merge_requests(username: str, gitlab):
                 })
     return mrs_by_user
 
-print(get_user_merge_requests("zmorchid", gl))
+print(get_user_merge_requests("souleyman", gl))
