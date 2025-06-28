@@ -1,6 +1,12 @@
 from dataclasses import dataclass
 from typing import List
 
+from enum import Enum
+
+class Source(Enum):
+    GITLAB = "gitlab"
+    GITHUB = "github"
+
 @dataclass
 class User:
     id: int
@@ -34,7 +40,7 @@ class Project:
     web_url: str
     namespace: Namespace
     mergerequests: List[MergeRequest]
-
+    source: Source
 
 
 

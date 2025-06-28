@@ -1,4 +1,5 @@
 from .datamodels import Namespace, Project, MergeRequest, Reviewer, User
+from .datamodels import Source
 
 
 zakaria = User(id=1, username="zmorchid", name="Zakaria")
@@ -61,7 +62,8 @@ projects = [
         visibility="private",
         web_url=f"https://fake.gitlab.com/{namespace_iac.path}/infra-as-code",
         namespace=namespace_iac,
-        mergerequests=merge_requests_project_1
+        mergerequests=merge_requests_project_1,
+        source=Source.GITLAB
     ),
     Project(
         id=2,
@@ -70,7 +72,8 @@ projects = [
         visibility="private",
         web_url=f"https://fake.gitlab.com/{namespace_iac.path}/vault-as-code",
         namespace=namespace_iac,
-        mergerequests=merge_requests_project_2
+        mergerequests=merge_requests_project_2,
+        source=Source.GITHUB
     ),
     Project(
         id=3,
@@ -79,7 +82,8 @@ projects = [
         visibility="private",
         web_url=f"https://fake.gitlab.com/{namespace_middleware.path}/tomcat",
         namespace=namespace_middleware,
-        mergerequests=merge_requests_project_3
+        mergerequests=merge_requests_project_3,
+        source=Source.GITHUB
     ),
     Project(
         id=4,
@@ -88,6 +92,7 @@ projects = [
         visibility="private",
         web_url=f"https://fake.gitlab.com/{namespace_sti.path}/vmarket-ansible",
         namespace=namespace_sti,
-        mergerequests=merge_requests_project_4
+        mergerequests=merge_requests_project_4,
+        source=Source.GITHUB
     )
 ]
