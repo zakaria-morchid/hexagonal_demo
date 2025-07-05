@@ -1,6 +1,10 @@
+"""
+    Préparation des données de test pour les projets, les utilisateurs, les espaces de nommage, etc.
+"""
+from random import choice, randint
+
 from .datamodels import Namespace, Project, MergeRequest, Reviewer, User
 from .datamodels import Source
-from random import choice, randint
 
 # Utilisateurs de référence
 users = [
@@ -50,8 +54,8 @@ projects = [
         visibility="private",
         web_url="https://fake.gitlab.com/iac/infra-as-code",
         namespace=namespaces[0],
-        mergerequests=generate_merge_requests(1, 3),
-        source=choice([Source.GITHUB, Source.GITLAB])
+        mergerequests=generate_merge_requests(1, 1),
+        source=Source.GITLAB
     ),
     Project(
         id=2,
@@ -60,37 +64,37 @@ projects = [
         visibility="public",
         web_url="https://fake.gitlab.com/iac/vault-as-code",
         namespace=namespaces[0],
-        mergerequests=generate_merge_requests(2, 2),
-        source=choice([Source.GITHUB, Source.GITLAB])
+        mergerequests=generate_merge_requests(2, 1),
+        source=Source.GITHUB
     ),
-    Project(
-        id=3,
-        name="tomcat",
-        description="Configuration de Tomcat pour production",
-        visibility="internal",
-        web_url="https://fake.gitlab.com/middleware/tomcat",
-        namespace=namespaces[1],
-        mergerequests=generate_merge_requests(3, 1),
-        source=choice([Source.GITHUB, Source.GITLAB])
-    ),
-    Project(
-        id=4,
-        name="vmarket-ansible",
-        description="Déploiement Ansible de VMarket",
-        visibility="private",
-        web_url="https://fake.gitlab.com/sti/vmarket-ansible",
-        namespace=namespaces[2],
-        mergerequests=generate_merge_requests(4, 0),
-        source=choice([Source.GITHUB, Source.GITLAB])
-    ),
-    Project(
-        id=5,
-        name="docker-images",
-        description="Gestion des images Docker de base",
-        visibility="private",
-        web_url="https://fake.gitlab.com/sti/docker-images",
-        namespace=namespaces[2],
-        mergerequests=generate_merge_requests(5, 4),
-        source=choice([Source.GITHUB, Source.GITLAB])
-    ),
+    # Project(
+    #     id=3,
+    #     name="tomcat",
+    #     description="Configuration de Tomcat pour production",
+    #     visibility="internal",
+    #     web_url="https://fake.gitlab.com/middleware/tomcat",
+    #     namespace=namespaces[1],
+    #     mergerequests=generate_merge_requests(3, 1),
+    #     source=choice([Source.GITHUB, Source.GITLAB])
+    # ),
+    # Project(
+    #     id=4,
+    #     name="vmarket-ansible",
+    #     description="Déploiement Ansible de VMarket",
+    #     visibility="private",
+    #     web_url="https://fake.gitlab.com/sti/vmarket-ansible",
+    #     namespace=namespaces[2],
+    #     mergerequests=generate_merge_requests(4, 0),
+    #     source=choice([Source.GITHUB, Source.GITLAB])
+    # ),
+    # Project(
+    #     id=5,
+    #     name="docker-images",
+    #     description="Gestion des images Docker de base",
+    #     visibility="private",
+    #     web_url="https://fake.gitlab.com/sti/docker-images",
+    #     namespace=namespaces[2],
+    #     mergerequests=generate_merge_requests(5, 1),
+    #     source=choice([Source.GITHUB, Source.GITLAB])
+    # ),
 ]

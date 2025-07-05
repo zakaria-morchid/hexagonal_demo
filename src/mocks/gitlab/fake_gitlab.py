@@ -12,6 +12,7 @@ class FakeGitlabMergeRequest:
     def __init__(self, mr):
         self.title = mr.title
         self.state = mr.state
+        self.author = mr.author
         # On prépare les données dans le format attendu par python-gitlab
         self._reviewers = mr.reviewers
 

@@ -41,6 +41,3 @@ class Project:
     namespace: Namespace
     mergerequests: List[MergeRequest]
     source: Source
-
-
-

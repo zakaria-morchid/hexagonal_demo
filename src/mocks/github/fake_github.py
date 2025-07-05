@@ -11,6 +11,7 @@ class FakeGithubPR:
     def __init__(self, mr):
         self.title = mr.title
         self.state = mr.state
+        self.author = mr.author
         self._reviews = [FakeGithubReview(r) for r in mr.reviewers]
 
     def get_reviews(self):
