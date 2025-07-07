@@ -1,9 +1,8 @@
-
-from interfaces import MergeRequestProvider
+from interfaces import IMergeRequestProvider
 from typing import Iterable, Optional
 from interfaces import MergeRequest, Approval
 
-class GitLabProvider(MergeRequestProvider):
+class GitLabProvider(IMergeRequestProvider):
     def __init__(self, client):
         self.client = client
         self.name = "GitLab"

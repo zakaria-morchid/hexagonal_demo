@@ -12,7 +12,7 @@ class MergeRequest(BaseModel):
     state: str
     author: str
     approvals: List[Approval]
-class MergeRequestProvider(ABC):
+class IMergeRequestProvider(ABC):
     @abstractmethod
     def list_merge_requests(self, username: Optional[str] = None) -> List[MergeRequest]:
         """

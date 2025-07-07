@@ -1,8 +1,8 @@
-from interfaces import MergeRequestProvider
+from interfaces import IMergeRequestProvider
 from typing import Iterable, Optional
 from interfaces import MergeRequest
 
-class GitHubProvider(MergeRequestProvider):
+class GitHubProvider(IMergeRequestProvider):
     def __init__(self, client):
         self.client = client
         self.name = "GitHub"
