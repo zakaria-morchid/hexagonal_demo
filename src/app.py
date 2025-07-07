@@ -1,7 +1,7 @@
 from mocks.gitlab import gl
 from mocks.github import gh
 import argparse
-from usecases.list_merge_requests import ListMergeRequests
+from domain.usecases.list_merge_requests import ListMergeRequests
 from providers.gitlab_provider import GitLabProvider
 from providers.github_provider import GitHubProvider
 

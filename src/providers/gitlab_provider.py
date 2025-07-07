@@ -1,6 +1,6 @@
-from interfaces import IMergeRequestProvider
+from domain.ports.interfaces import IMergeRequestProvider
 from typing import Iterable, Optional
-from interfaces import MergeRequest, Approval
+from domain.models.model import MergeRequest, Approval
 
 class GitLabProvider(IMergeRequestProvider):
     def __init__(self, client):

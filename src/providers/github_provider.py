@@ -1,6 +1,6 @@
-from interfaces import IMergeRequestProvider
+from domain.ports.interfaces import IMergeRequestProvider
 from typing import Iterable, Optional
-from interfaces import MergeRequest
+from domain.models.model import MergeRequest
 
 class GitHubProvider(IMergeRequestProvider):
     def __init__(self, client):

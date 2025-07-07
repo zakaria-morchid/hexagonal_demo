@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+from domain.ports.interfaces import IMergeRequestProvider
+from typing import List
 
 class IListMergeRequestsUseCase(ABC):
     @abstractmethod
@@ -11,7 +13,7 @@ class IListMergeRequestsUseCase(ABC):
 
 
 class ListMergeRequests(IListMergeRequestsUseCase):
-    def __init__(self, providers):
+    def __init__(self, providers: List[IMergeRequestProvider]):
         self.providers = providers
 
     def execute(self, username=None):
