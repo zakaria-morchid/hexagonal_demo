@@ -2,8 +2,8 @@ from mocks.gitlab import gl
 from mocks.github import gh
 import argparse
 from domain.usecases.list_merge_requests import ListMergeRequests
-from providers.gitlab_provider import GitLabProvider
-from providers.github_provider import GitHubProvider
+from infrastructure.providers.gitlab import GitLabProvider
+from infrastructure.providers.github import GitHubProvider
 
          
 def parse_args():

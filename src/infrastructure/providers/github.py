@@ -1,4 +1,4 @@
-from domain.ports.interfaces import IMergeRequestProvider
+from domain.ports.ports import IMergeRequestProvider
 from typing import Iterable, Optional
 from domain.models.model import MergeRequest
 

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from domain.ports.interfaces import IMergeRequestProvider
+from domain.ports.ports import IMergeRequestProvider
 from typing import List
 
 class IListMergeRequestsUseCase(ABC):
