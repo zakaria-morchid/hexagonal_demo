@@ -7,7 +7,10 @@ class GitHubProvider(IMergeRequestProvider):
         self.client = client
         self.name = "GitHub"
 
-    def list_merge_requests(self, username: Optional[str] = None) -> Iterable[MergeRequest]:
+    def fetch_merge_requests(self, username: Optional[str] = None) -> Iterable[MergeRequest]:
+        """
+        Récupère les merge requests GitHub pour un utilisateur spécifique.
+        """
         for repo in self.client.get_user().get_repos():
             for pr in repo.get_pulls():
                 if username is None or pr.author.username == username:

@@ -7,7 +7,10 @@ class GitLabProvider(IMergeRequestProvider):
         self.client = client
         self.name = "GitLab"
         
-    def list_merge_requests(self, username: Optional[str] = None) -> Iterable[MergeRequest]:
+    def fetch_merge_requests(self, username: Optional[str] = None) -> Iterable[MergeRequest]:
+        """
+        Récupère les merge requests GitLab pour un utilisateur spécifique.
+        """
         for project in self.client.projects.list():
             for mr in project.mergerequests.list():
                 if username is None or mr.author.username == username:

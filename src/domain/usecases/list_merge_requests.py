@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from domain.ports.ports import IMergeRequestProvider
 from typing import List
+from domain.models.model import MergeRequest
 
 class IListMergeRequestsUseCase(ABC):
     @abstractmethod
@@ -13,16 +13,15 @@ class IListMergeRequestsUseCase(ABC):
 
 
 class ListMergeRequests(IListMergeRequestsUseCase):
-    def __init__(self, providers: List[IMergeRequestProvider]):
-        self.providers = providers
+    def __init__(self, mr: List[MergeRequest]):
+        self.mr = mr
 
-    def execute(self, username=None):
-        for provider in self.providers:
-            self._display_merge_requests(provider, username=username)
+    def execute(self):
+        self._display_merge_requests()
         
-    def _display_merge_requests(self, provider, username=None):
-        print(f"🛠️  [{provider.name}]")
-        for mr in provider.list_merge_requests(username=username):
+    def _display_merge_requests(self):
+        for mr in self.mr:
+            print(f"🛠️  [{mr.platform}]")
             print(f"  ▪ {mr.project}")
             print(f"  ▪ {mr.title} ({mr.state})")
             print(f"    Auteur : {mr.author}")
