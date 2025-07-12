@@ -4,11 +4,11 @@ Module principal pour le présentateur JSON.
 
 # pylint: disable=too-few-public-methods
 from typing import List
-from domain.ports.presenter import IPresenter
+from domain.ports.presenter import IMergeRequestPresenter
 from domain.models.model import MergeRequest
 
 
-class JsonPresenter(IPresenter):
+class JsonPresenter(IMergeRequestPresenter):
     """
     Classe pour le présentateur JSON.
     """
@@ -19,7 +19,7 @@ class JsonPresenter(IPresenter):
         """
         self.result = []
 
-    def present(self, merge_requests: List[MergeRequest]):
+    def present_merge_requests(self, merge_requests: List[MergeRequest]):
         """
         Présente les merge requests.
         """

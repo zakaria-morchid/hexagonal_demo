@@ -3,9 +3,10 @@ Module principal pour les mocks GitLab.
 """
 
 # pylint: disable=too-few-public-methods
-from typing import Iterable, Optional
-from domain.ports.provider import IMergeRequestProvider
+from typing import Iterable, Optional, List
+from domain.ports.merge_request_provider import IMergeRequestProvider
 from domain.models.model import MergeRequest, Approval
+from domain.models.release import Change
 
 
 class GitLabProvider(IMergeRequestProvider):
@@ -40,3 +41,9 @@ class GitLabProvider(IMergeRequestProvider):
                             for approver in rule["approved_by"]
                         ],
                     )
+
+    def list_merged_changes_since(self, version_tag: str) -> List[Change]:
+        """
+        Liste les changements fusionnés depuis une version spécifique.
+        """
+        return []

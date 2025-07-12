@@ -4,16 +4,16 @@ Module principal pour le présentateur de Console.
 
 # pylint: disable=too-few-public-methods
 from typing import List
-from domain.ports.presenter import IPresenter
+from domain.ports.presenter import IMergeRequestPresenter
 from domain.models.model import MergeRequest
 
 
-class ConsolePresenter(IPresenter):
+class ConsolePresenter(IMergeRequestPresenter): 
     """
     Classe pour le présentateur de Console.
     """
 
-    def present(self, merge_requests: List[MergeRequest]) -> None:
+    def present_merge_requests(self, merge_requests: List[MergeRequest]) -> None:
         """
         Présente les merge requests.
         """

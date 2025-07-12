@@ -3,9 +3,10 @@ Module principal pour les mocks GitHub.
 """
 
 # pylint: disable=too-few-public-methods
-from typing import Iterable, Optional
-from domain.ports.provider import IMergeRequestProvider
+from typing import Iterable, Optional, List
+from domain.ports.merge_request_provider import IMergeRequestProvider
 from domain.models.model import MergeRequest
+from domain.models.release import Change
 
 
 class GitHubProvider(IMergeRequestProvider):
@@ -34,3 +35,9 @@ class GitHubProvider(IMergeRequestProvider):
                         author=pr.author.username,
                         approvals=[],  # GitHub n’a pas toujours de règles d’approbation accessibles
                     )
+
+    def list_merged_changes_since(self, version_tag: str) -> List[Change]:
+        """
+        Liste les changements fusionnés depuis une version spécifique.
+        """
+        return []
