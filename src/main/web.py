@@ -1,6 +1,16 @@
-from interfaces.web.api import app
+"""
+Module principal pour le serveur web.
+"""
 
-# Optionnel, pour exécution directe
+import uvicorn
+
+
+def run_web():
+    """
+    Exécute le serveur web.
+    """
+    uvicorn.run("interfaces.web.api:app", host="0.0.0.0", port=8000, reload=True)
+
+
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("main.web:app", host="0.0.0.0", port=8000, reload=True)
+    run_web()

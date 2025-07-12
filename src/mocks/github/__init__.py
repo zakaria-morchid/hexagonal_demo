@@ -1,4 +1,10 @@
+"""
+Module principal pour les mocks GitHub.
+"""
+
+from mocks.models.fake_data import projects
 from .fake_github import FakeGithub
-from ..models.fake_data import projects
 
 gh = FakeGithub(projects)
+
+__all__ = ["gh"]

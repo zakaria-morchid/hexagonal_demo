@@ -1,6 +1,8 @@
 """
-    Préparation des données de test pour les projets, les utilisateurs, les espaces de nommage, etc.
+Préparation des données de test pour les projets, les utilisateurs, les espaces de nommage, etc.
 """
+
+# pylint: disable=line-too-long
 from random import choice, randint
 
 from .datamodels import Namespace, Project, MergeRequest, Reviewer, User
@@ -20,30 +22,47 @@ users = [
 namespaces = [
     Namespace(id=1, name="iac", path="do-amont/automatisation/iac"),
     Namespace(id=2, name="middleware", path="do-amont/socle-technique/middleware"),
-    Namespace(id=3, name="sti", path="do-amont/services-techniques-and-industrialisation/supervision"),
+    Namespace(
+        id=3,
+        name="sti",
+        path="do-amont/services-techniques-and-industrialisation/supervision",
+    ),
 ]
+
 
 # Générateur de MergeRequest avec variations
 def generate_merge_requests(project_id: int, count: int) -> list[MergeRequest]:
+    """
+    Génère une liste de MergeRequest pour un projet donné.
+    """
     mrs = []
     for i in range(count):
         author = choice(users)
-        title = choice([
-            "Fix login", "Improve error handling", "Add CI pipeline", "Refactor auth service", "Update README"
-        ])
+        title = choice(
+            [
+                "Fix login",
+                "Improve error handling",
+                "Add CI pipeline",
+                "Refactor auth service",
+                "Update README",
+            ]
+        )
         reviewers = [
             Reviewer(user=choice(users), approved=bool(randint(0, 1)))
             for _ in range(randint(1, 3))
         ]
-        mrs.append(MergeRequest(
-            id=project_id * 100 + i,
-            title=title,
-            state=choice(["opened", "closed", "merged"]),
-            project_id=project_id,
-            author=author,
-            reviewers=reviewers
-        ))
+        mrs.append(
+            MergeRequest(
+                id=project_id * 100 + i,
+                title=title,
+                state=choice(["opened", "closed", "merged"]),
+                project_id=project_id,
+                author=author,
+                reviewers=reviewers,
+            )
+        )
     return mrs
+
 
 # Projets variés
 projects = [
@@ -55,7 +74,7 @@ projects = [
         web_url="https://fake.gitlab.com/iac/infra-as-code",
         namespace=namespaces[0],
         mergerequests=generate_merge_requests(1, 1),
-        source=Source.GITLAB
+        source=Source.GITLAB,
     ),
     Project(
         id=2,
@@ -65,7 +84,7 @@ projects = [
         web_url="https://fake.gitlab.com/iac/vault-as-code",
         namespace=namespaces[0],
         mergerequests=generate_merge_requests(2, 1),
-        source=Source.GITHUB
+        source=Source.GITHUB,
     ),
     # Project(
     #     id=3,

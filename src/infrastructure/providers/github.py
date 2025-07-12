@@ -1,13 +1,25 @@
-from domain.ports.provider import IMergeRequestProvider
+"""
+Module principal pour les mocks GitHub.
+"""
+
+# pylint: disable=too-few-public-methods
 from typing import Iterable, Optional
+from domain.ports.provider import IMergeRequestProvider
 from domain.models.model import MergeRequest
 
+
 class GitHubProvider(IMergeRequestProvider):
+    """
+    Classe pour les mocks de GitHubProvider.
+    """
+
     def __init__(self, client):
         self.client = client
         self.name = "GitHub"
 
-    def fetch_merge_requests(self, username: Optional[str] = None) -> Iterable[MergeRequest]:
+    def fetch_merge_requests(
+        self, username: Optional[str] = None
+    ) -> Iterable[MergeRequest]:
         """
         Récupère les merge requests GitHub pour un utilisateur spécifique.
         """
@@ -20,5 +32,5 @@ class GitHubProvider(IMergeRequestProvider):
                         title=pr.title,
                         state=pr.state,
                         author=pr.author.username,
-                        approvals=[]  # GitHub n’a pas toujours de règles d’approbation accessibles
+                        approvals=[],  # GitHub n’a pas toujours de règles d’approbation accessibles
                     )
