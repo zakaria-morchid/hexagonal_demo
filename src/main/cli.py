@@ -11,11 +11,14 @@ def parse_args():
     parser.add_argument("-u", "--username", help="Filtrer par auteur GitLab/GitHub")
     return parser.parse_args()
 
-if __name__ == "__main__":
+def run_cli():
     args = parse_args()
     
     presenter = ConsolePresenter()
 
     MergeRequestController(GitLabProvider(gl), presenter).run(username=args.username)
     MergeRequestController(GitHubProvider(gh), presenter).run(username=args.username)
+
+if __name__ == "__main__":
+    run_cli()
     
