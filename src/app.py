@@ -16,9 +16,11 @@ if __name__ == "__main__":
     
     presenter = ConsolePresenter()
 
-    mr_gitlab = GitLabProvider(gl).fetch_merge_requests(username=args.username)
-    ListMergeRequests(mr_gitlab, presenter).execute()
+    provider_gitlab = GitLabProvider(gl)
+    use_case_gitlab = ListMergeRequests(provider_gitlab, presenter)
+    use_case_gitlab.execute(username=args.username)
 
-    mr_github = GitHubProvider(gh).fetch_merge_requests(username=args.username)
-    ListMergeRequests(mr_github, presenter).execute()
+    provider_github = GitHubProvider(gh)
+    use_case_github = ListMergeRequests(provider_github, presenter)
+    use_case_github.execute(username=args.username)
     
