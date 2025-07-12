@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 pylint = "*"
 pytest = "*"
+fastapi = "*"
+uvicorn = "*"
 
 [dev-packages]
 
