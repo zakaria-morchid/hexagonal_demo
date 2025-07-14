@@ -36,7 +36,7 @@ def run_cli():
     ListPendingChangesForRelease(GitLabProvider(gl), presenter).execute(
         since_version="v1.0.0", target_version="v1.0.1"
     )
-    # ListPendingChangesForRelease(GitHubProvider(gh), presenter).execute(since_version="v1.0.0", target_version="v1.0.1")
+    ListPendingChangesForRelease(GitHubProvider(gh), presenter).execute(since_version="v1.0.0", target_version="v1.0.1")
 
 
 if __name__ == "__main__":

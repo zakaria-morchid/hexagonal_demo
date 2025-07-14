@@ -26,6 +26,8 @@ class FakeGithubPR:
         self.title = mr.title
         self.state = mr.state
         self.author = mr.author
+        self.merged_at = mr.merged_at
+        self.commit_sha = mr.commit_sha
         self._reviews = [FakeGithubReview(r) for r in mr.reviewers]
 
     def get_reviews(self):
@@ -43,12 +45,20 @@ class FakeGithubRepo:
     def __init__(self, project):
         self.name = project.name
         self._pulls = [FakeGithubPR(mr) for mr in project.mergerequests]
+        self.tags = project.tags or []
+        self.source = project.source
 
     def get_pulls(self):
         """
         Retourne les pulls.
         """
         return self._pulls
+    
+    def get_tags(self):
+        """
+        Retourne les tags.
+        """
+        return self.tags
 
 
 class FakeGithubUser:
