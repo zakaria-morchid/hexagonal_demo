@@ -46,7 +46,7 @@ def list_pending_changes(
 
     for provider in [GitLabProvider(gl), GitHubProvider(gh)]:
         presenter = JsonPresenter()
-        use_case = ListPendingChangesForRelease(provider, presenter)
+        use_case = ListPendingChangesForRelease(provider)
         use_case.execute(since_version=since_version, target_version=target_version)
         for change in presenter.result:
             changes.append(ChangeDTO(**change))

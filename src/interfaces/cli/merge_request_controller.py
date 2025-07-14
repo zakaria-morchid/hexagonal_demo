@@ -16,10 +16,12 @@ class MergeRequestController:
     def __init__(
         self, provider: IMergeRequestProvider, presenter: IMergeRequestPresenter
     ):
-        self.use_case = ListMergeRequests(provider, presenter)
+        self.use_case = ListMergeRequests(provider)
+        self.presenter = presenter
 
     def run(self, username=None):
         """
         Exécute le contrôleur de MergeRequest.
         """
-        self.use_case.execute(username=username)
+        merge_requests = self.use_case.execute(username=username)
+        self.presenter.present_merge_requests(merge_requests)

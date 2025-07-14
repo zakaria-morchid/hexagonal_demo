@@ -7,7 +7,7 @@ from datetime import datetime
 from typing import List
 from domain.ports.spi.presenter import IMergeRequestPresenter, IPendingChangesPresenter
 from domain.models.model import MergeRequest
-from domain.models.release import PendingChanges
+from domain.models.release import PendingChanges, Release
 
 
 class ConsolePresenter(IMergeRequestPresenter, IPendingChangesPresenter):
@@ -46,3 +46,18 @@ class ConsolePresenter(IMergeRequestPresenter, IPendingChangesPresenter):
             print(f"   🕒 fusionné le {merged_at_str} ({elapsed})")
             print(f"   🔗 {change.commit_sha}")
             print()
+
+    def present_release(self, release: Release) -> None:
+        """
+        Présente une release.
+        """
+        print(f"📦 Version cible : {release.version}")
+        print("📝 Changements :")
+        for change in release.changes:
+            print(
+                f"▪ [{change.platform.value}] {change.project} - {change.title} ({change.author})"
+            )
+
+        print(f"👤 Créé par : {release.created_by}")
+        print(f"🕒 Créé le : {release.created_at}")
+        print(f"🔗 {release.tag}")

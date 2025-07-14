@@ -6,7 +6,7 @@ Module principal pour les ports de présentation.
 from abc import ABC, abstractmethod
 from typing import List
 from domain.models.model import MergeRequest
-from domain.models.release import PendingChanges
+from domain.models.release import PendingChanges, Release
 
 
 class IMergeRequestPresenter(ABC):
@@ -30,4 +30,16 @@ class IPendingChangesPresenter(ABC):
     def present_pending_changes(self, pending_changes: PendingChanges) -> None:
         """
         Présente les changements en attente.
+        """
+
+
+class IReleasePresenter(ABC):
+    """
+    Interface pour les présentateurs de release.
+    """
+
+    @abstractmethod
+    def present_release(self, release: Release) -> None:
+        """
+        Présente une release.
         """

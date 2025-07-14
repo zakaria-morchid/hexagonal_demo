@@ -9,7 +9,8 @@ from infrastructure.providers.gitlab import GitLabProvider
 from infrastructure.providers.github import GitHubProvider
 from infrastructure.presenters.console import ConsolePresenter
 from interfaces.cli.merge_request_controller import MergeRequestController
-from domain.usecases.list_pending_changes import ListPendingChangesForRelease
+from interfaces.cli.pending_changes_controller import PendingChangesController
+from interfaces.cli.release_controller import ReleaseController
 
 
 def parse_args():
@@ -29,15 +30,24 @@ def run_cli():
     """
     args = parse_args()
     presenter = ConsolePresenter()
+    gitlab_provider = GitLabProvider(gl)
+    github_provider = GitHubProvider(gh)
 
-    MergeRequestController(GitLabProvider(gl), presenter).run(username=args.username)
-    MergeRequestController(GitHubProvider(gh), presenter).run(username=args.username)
+    MergeRequestController(gitlab_provider, presenter).run(username=args.username)
+    MergeRequestController(github_provider, presenter).run(username=args.username)
 
-    ListPendingChangesForRelease(GitLabProvider(gl), presenter).execute(
+    PendingChangesController(gitlab_provider, presenter).run(
         since_version="v1.0.0", target_version="v1.0.1"
     )
-    ListPendingChangesForRelease(GitHubProvider(gh), presenter).execute(
+    PendingChangesController(github_provider, presenter).run(
         since_version="v1.0.0", target_version="v1.0.1"
+    )
+
+    ReleaseController(gitlab_provider, presenter).run(
+        since_version="v1.0.0", target_version="v1.0.1", created_by="zmorchid"
+    )
+    ReleaseController(github_provider, presenter).run(
+        since_version="v1.0.0", target_version="v1.0.1", created_by="zmorchid"
     )
 
 
