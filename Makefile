@@ -7,6 +7,7 @@ run_cli:
 
 run_api:
 	curl http://localhost:8000/merge-requests
+	curl "http://localhost:8000/pending-changes?since_version=v1.0.0&target_version=v1.0.1"
 
 server:
 	@PYTHONPATH=src python src/main/web.py

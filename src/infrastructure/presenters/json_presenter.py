@@ -6,6 +6,7 @@ Module principal pour le présentateur JSON.
 from typing import List
 from domain.ports.presenter import IMergeRequestPresenter
 from domain.models.model import MergeRequest
+from domain.models.release import PendingChanges
 
 
 class JsonPresenter(IMergeRequestPresenter):
@@ -35,4 +36,21 @@ class JsonPresenter(IMergeRequestPresenter):
                 ],
             }
             for mr in merge_requests
+        ]
+
+
+    def present_pending_changes(self, pending_changes: PendingChanges):
+        """
+        Présente les changements en attente.
+        """
+        self.result = [
+            {
+                "project": c.project,
+                "title": c.title,
+                "author": c.author,
+                "merged_at": c.merged_at,
+                "platform": c.platform,
+                "commit_sha": getattr(c, "commit_sha", None),
+            }
+            for c in pending_changes.changes
         ]
