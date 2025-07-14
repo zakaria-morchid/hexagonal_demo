@@ -1,8 +1,8 @@
 from datetime import datetime
 import pytest
-from src.domain.ports.merge_request_provider import IMergeRequestProvider
-from src.domain.ports.pending_changes_provider import IPendingChangesProvider
-from src.domain.ports.presenter import IMergeRequestPresenter, IPendingChangesPresenter
+from src.domain.ports.spi.merge_request_provider import IMergeRequestProvider
+from src.domain.ports.spi.pending_changes_provider import IPendingChangesProvider
+from src.domain.ports.spi.presenter import IMergeRequestPresenter, IPendingChangesPresenter
 from src.domain.models.model import MergeRequest, Approval
 from src.domain.models.release import PendingChanges, Change, Platform
 from typing import List, Optional

@@ -5,7 +5,7 @@ Module principal pour le présentateur de Console.
 # pylint: disable=too-few-public-methods
 from datetime import datetime
 from typing import List
-from domain.ports.presenter import IMergeRequestPresenter, IPendingChangesPresenter
+from domain.ports.spi.presenter import IMergeRequestPresenter, IPendingChangesPresenter
 from domain.models.model import MergeRequest
 from domain.models.release import PendingChanges
 

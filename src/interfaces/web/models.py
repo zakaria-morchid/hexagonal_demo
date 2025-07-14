@@ -1,5 +1,11 @@
-from pydantic import BaseModel
+"""
+Module principal pour les modèles de la web API.
+"""
+
+# pylint: disable=missing-class-docstring
 from typing import Optional, List
+from pydantic import BaseModel
+
 
 class ChangeDTO(BaseModel):
     project: str
@@ -13,6 +19,3 @@ class ChangeDTO(BaseModel):
 class PendingChangesDTO(BaseModel):
     target_version: str
     changes: List[ChangeDTO]
-
-
-

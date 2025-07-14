@@ -3,8 +3,8 @@ Module principal pour le contrôleur de MergeRequest.
 """
 
 # pylint: disable=too-few-public-methods
-from domain.ports.merge_request_provider import IMergeRequestProvider
-from domain.ports.presenter import IMergeRequestPresenter
+from domain.ports.spi.merge_request_provider import IMergeRequestProvider
+from domain.ports.spi.presenter import IMergeRequestPresenter
 from domain.usecases.list_merge_requests import ListMergeRequests
 
 

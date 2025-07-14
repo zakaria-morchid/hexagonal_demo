@@ -4,7 +4,7 @@ Module principal pour le présentateur JSON.
 
 # pylint: disable=too-few-public-methods
 from typing import List
-from domain.ports.presenter import IMergeRequestPresenter
+from domain.ports.spi.presenter import IMergeRequestPresenter
 from domain.models.model import MergeRequest
 from domain.models.release import PendingChanges
 
@@ -37,7 +37,6 @@ class JsonPresenter(IMergeRequestPresenter):
             }
             for mr in merge_requests
         ]
-
 
     def present_pending_changes(self, pending_changes: PendingChanges):
         """

@@ -9,9 +9,9 @@ from mocks.github import gh
 from infrastructure.providers.gitlab import GitLabProvider
 from infrastructure.providers.github import GitHubProvider
 from infrastructure.presenters.json_presenter import JsonPresenter
+from interfaces.web.models import ChangeDTO, PendingChangesDTO
 from interfaces.cli.merge_request_controller import MergeRequestController
 from domain.models.model import MergeRequest
-from interfaces.web.models import ChangeDTO, PendingChangesDTO
 from domain.usecases.list_pending_changes import ListPendingChangesForRelease
 
 app = FastAPI()
@@ -37,9 +37,11 @@ def list_merge_requests(
 
 @app.get("/pending-changes", response_model=PendingChangesDTO)
 def list_pending_changes(
-    since_version: str = Query(...),
-    target_version: str = Query(...)
+    since_version: str = Query(...), target_version: str = Query(...)
 ) -> PendingChangesDTO:
+    """
+    Liste les changements en attente pour une version spécifique.
+    """
     changes: List[ChangeDTO] = []
 
     for provider in [GitLabProvider(gl), GitHubProvider(gh)]:
@@ -49,7 +51,4 @@ def list_pending_changes(
         for change in presenter.result:
             changes.append(ChangeDTO(**change))
 
-    return PendingChangesDTO(
-        target_version=target_version,
-        changes=changes
-    )
+    return PendingChangesDTO(target_version=target_version, changes=changes)

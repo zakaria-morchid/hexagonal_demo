@@ -9,6 +9,7 @@ pytest = "*"
 fastapi = "*"
 uvicorn = "*"
 black = "*"
+mypy = "*"
 
 [dev-packages]
 

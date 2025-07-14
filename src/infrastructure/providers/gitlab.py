@@ -4,7 +4,7 @@ Module principal pour les mocks GitLab.
 
 # pylint: disable=too-few-public-methods
 from typing import Iterable, Optional, List
-from domain.ports.merge_request_provider import IMergeRequestProvider
+from domain.ports.spi.merge_request_provider import IMergeRequestProvider
 from domain.models.model import MergeRequest, Approval
 from domain.models.release import Change
 from mocks.models.datamodels import MergeRequestState, Tag
