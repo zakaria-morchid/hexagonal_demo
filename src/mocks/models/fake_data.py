@@ -7,6 +7,7 @@ import random
 import string
 from random import choice, randint
 from datetime import datetime, timedelta
+from typing import Optional
 
 from .datamodels import (
     Namespace,
@@ -63,7 +64,7 @@ def _generate_commit_sha(length=40) -> str:
 
 
 # Générateur de MergeRequest avec variations
-def generate_merge_requests(project_id: int, count: int) -> list[MergeRequest]:
+def generate_merge_requests(project_id: int, count: int, state: Optional[MergeRequestState] = None) -> list[MergeRequest]:
     """
     Génère une liste de MergeRequest pour un projet donné.
     """
@@ -89,18 +90,20 @@ def generate_merge_requests(project_id: int, count: int) -> list[MergeRequest]:
             for _ in range(randint(1, 3))
         ]
 
-        state = choice(
-            [
-                MergeRequestState.OPENED,
-                MergeRequestState.CLOSED,
-                MergeRequestState.MERGED,
-            ]
-        )
+
+        if state is None:
+            state = choice(
+                [
+                    MergeRequestState.OPENED,
+                    MergeRequestState.CLOSED,
+                    MergeRequestState.MERGED,
+                ]
+            )
 
         # ✅ merged_at uniquement si Merged
         merged_at = None
         if state == MergeRequestState.MERGED:
-            merged_at = datetime.now() - timedelta(days=randint(1, 30))
+            merged_at = datetime.now() - timedelta(days=randint(1, 15))
 
         commit_sha = _generate_commit_sha()
 
@@ -128,7 +131,7 @@ projects = [
         visibility=ProjectVisibility.PRIVATE,
         web_url="https://fake.gitlab.com/iac/infra-as-code",
         namespace=namespaces[0],
-        mergerequests=generate_merge_requests(1, 4),
+        mergerequests=generate_merge_requests(1, 2, MergeRequestState.MERGED),
         source=Source.GITLAB,
         tags=tags,
     ),
@@ -139,7 +142,7 @@ projects = [
         visibility=ProjectVisibility.PUBLIC,
         web_url="https://fake.gitlab.com/iac/vault-as-code",
         namespace=namespaces[0],
-        mergerequests=generate_merge_requests(2, 4),
+        mergerequests=generate_merge_requests(2, 2, MergeRequestState.MERGED),
         source=Source.GITHUB,
         tags=tags,
     ),
