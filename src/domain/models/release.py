@@ -10,14 +10,14 @@ from typing import List
 from enum import Enum
 
 
-class Source(Enum):
+class Platform(Enum):
     GITLAB = "gitlab"
     GITHUB = "github"
 
 
 @dataclass
 class Change:
-    platform: Source
+    platform: Platform
     project: str
     title: str
     author: str
@@ -39,7 +39,7 @@ class ReleaseStatus(str, Enum):
 
 @dataclass
 class Release:
-    platform: Source
+    platform: Platform
     tag: str
     changes: List[Change]
     created_by: str
