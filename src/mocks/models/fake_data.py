@@ -3,10 +3,22 @@ Préparation des données de test pour les projets, les utilisateurs, les espace
 """
 
 # pylint: disable=line-too-long
+import random
+import string
 from random import choice, randint
+from datetime import datetime, timedelta
 
-from .datamodels import Namespace, Project, MergeRequest, Reviewer, User
-from .datamodels import Source
+from .datamodels import (
+    Namespace,
+    Project,
+    MergeRequest,
+    Reviewer,
+    User,
+    MergeRequestState,
+    ProjectVisibility,
+    Tag,
+    Source,
+)
 
 # Utilisateurs de référence
 users = [
@@ -29,6 +41,26 @@ namespaces = [
     ),
 ]
 
+# Tags
+tags = [
+    Tag(
+        name="v1.0.0",
+        committed_date=datetime.now() - timedelta(days=10),
+        author_name="zmorchid",
+        message="Initial release",
+    ),
+    Tag(
+        name="v1.0.1",
+        committed_date=datetime.now() - timedelta(days=5),
+        author_name="zmorchid",
+        message="Minor changes",
+    ),
+]
+
+
+def _generate_commit_sha(length=40) -> str:
+    return "".join(random.choices("abcdef" + string.digits, k=length))
+
 
 # Générateur de MergeRequest avec variations
 def generate_merge_requests(project_id: int, count: int) -> list[MergeRequest]:
@@ -45,20 +77,43 @@ def generate_merge_requests(project_id: int, count: int) -> list[MergeRequest]:
                 "Add CI pipeline",
                 "Refactor auth service",
                 "Update README",
+                "Add new feature",
+                "Fix bug",
+                "Refactor code",
+                "Add new test",
+                "Update documentation",
             ]
         )
         reviewers = [
             Reviewer(user=choice(users), approved=bool(randint(0, 1)))
             for _ in range(randint(1, 3))
         ]
+
+        state = choice(
+            [
+                MergeRequestState.OPENED,
+                MergeRequestState.CLOSED,
+                MergeRequestState.MERGED,
+            ]
+        )
+
+        # ✅ merged_at uniquement si Merged
+        merged_at = None
+        if state == MergeRequestState.MERGED:
+            merged_at = datetime.now() - timedelta(days=randint(1, 30))
+
+        commit_sha = _generate_commit_sha()
+
         mrs.append(
             MergeRequest(
                 id=project_id * 100 + i,
                 title=title,
-                state=choice(["opened", "closed", "merged"]),
+                state=state,
                 project_id=project_id,
                 author=author,
                 reviewers=reviewers,
+                commit_sha=commit_sha,
+                merged_at=merged_at,
             )
         )
     return mrs
@@ -70,50 +125,55 @@ projects = [
         id=1,
         name="infra-as-code",
         description="Provision infrastructure using code",
-        visibility="private",
+        visibility=ProjectVisibility.PRIVATE,
         web_url="https://fake.gitlab.com/iac/infra-as-code",
         namespace=namespaces[0],
-        mergerequests=generate_merge_requests(1, 1),
+        mergerequests=generate_merge_requests(1, 4),
         source=Source.GITLAB,
+        tags=tags,
     ),
     Project(
         id=2,
         name="vault-as-code",
         description="Manage Vault secrets as code",
-        visibility="public",
+        visibility=ProjectVisibility.PUBLIC,
         web_url="https://fake.gitlab.com/iac/vault-as-code",
         namespace=namespaces[0],
-        mergerequests=generate_merge_requests(2, 1),
+        mergerequests=generate_merge_requests(2, 4),
         source=Source.GITHUB,
+        tags=tags,
     ),
-    # Project(
-    #     id=3,
-    #     name="tomcat",
-    #     description="Configuration de Tomcat pour production",
-    #     visibility="internal",
-    #     web_url="https://fake.gitlab.com/middleware/tomcat",
-    #     namespace=namespaces[1],
-    #     mergerequests=generate_merge_requests(3, 1),
-    #     source=choice([Source.GITHUB, Source.GITLAB])
-    # ),
-    # Project(
-    #     id=4,
-    #     name="vmarket-ansible",
-    #     description="Déploiement Ansible de VMarket",
-    #     visibility="private",
-    #     web_url="https://fake.gitlab.com/sti/vmarket-ansible",
-    #     namespace=namespaces[2],
-    #     mergerequests=generate_merge_requests(4, 0),
-    #     source=choice([Source.GITHUB, Source.GITLAB])
-    # ),
-    # Project(
-    #     id=5,
-    #     name="docker-images",
-    #     description="Gestion des images Docker de base",
-    #     visibility="private",
-    #     web_url="https://fake.gitlab.com/sti/docker-images",
-    #     namespace=namespaces[2],
-    #     mergerequests=generate_merge_requests(5, 1),
-    #     source=choice([Source.GITHUB, Source.GITLAB])
-    # ),
+    Project(
+        id=3,
+        name="tomcat",
+        description="Configuration de Tomcat pour production",
+        visibility=ProjectVisibility.INTERNAL,
+        web_url="https://fake.gitlab.com/middleware/tomcat",
+        namespace=namespaces[1],
+        mergerequests=generate_merge_requests(3, 4),
+        source=choice([Source.GITHUB, Source.GITLAB]),
+        tags=tags,
+    ),
+    Project(
+        id=4,
+        name="vmarket-ansible",
+        description="Déploiement Ansible de VMarket",
+        visibility=ProjectVisibility.PRIVATE,
+        web_url="https://fake.gitlab.com/sti/vmarket-ansible",
+        namespace=namespaces[2],
+        mergerequests=generate_merge_requests(4, 4),
+        source=choice([Source.GITHUB, Source.GITLAB]),
+        tags=tags,
+    ),
+    Project(
+        id=5,
+        name="docker-images",
+        description="Gestion des images Docker de base",
+        visibility=ProjectVisibility.PRIVATE,
+        web_url="https://fake.gitlab.com/sti/docker-images",
+        namespace=namespaces[2],
+        mergerequests=generate_merge_requests(5, 4),
+        source=choice([Source.GITHUB, Source.GITLAB]),
+        tags=tags,
+    ),
 ]

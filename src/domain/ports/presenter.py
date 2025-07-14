@@ -20,6 +20,7 @@ class IMergeRequestPresenter(ABC):
         Présente les merge requests.
         """
 
+
 class IPendingChangesPresenter(ABC):
     """
     Interface pour les présentateurs de changements en attente.

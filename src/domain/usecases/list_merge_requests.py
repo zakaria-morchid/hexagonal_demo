@@ -26,7 +26,9 @@ class ListMergeRequests(IListMergeRequestsUseCase):
     Classe pour le cas d’usage de listing des merge requests.
     """
 
-    def __init__(self, provider: IMergeRequestProvider, presenter: IMergeRequestPresenter):
+    def __init__(
+        self, provider: IMergeRequestProvider, presenter: IMergeRequestPresenter
+    ):
         self.provider = provider
         self.presenter = presenter
 

@@ -7,6 +7,7 @@ from typing import Iterable, Optional, List
 from domain.ports.merge_request_provider import IMergeRequestProvider
 from domain.models.model import MergeRequest, Approval
 from domain.models.release import Change
+from mocks.models.datamodels import MergeRequestState, Tag
 
 
 class GitLabProvider(IMergeRequestProvider):
@@ -44,6 +45,38 @@ class GitLabProvider(IMergeRequestProvider):
 
     def list_merged_changes_since(self, version_tag: str) -> List[Change]:
         """
-        Liste les changements fusionnés depuis une version spécifique.
+        Liste les changements fusionnés depuis un tag donné.
         """
-        return []
+        changes: List[Change] = []
+
+        for project in self.client.projects.list():
+            tag = self._find_tag(project.tags, version_tag)
+            if not tag:
+                continue  # tag non trouvé pour ce projet
+
+            for mr in project.mergerequests.list():
+                if (
+                    mr.state == MergeRequestState.MERGED
+                    and mr.merged_at
+                    and mr.merged_at > tag.committed_date
+                ):
+                    changes.append(
+                        Change(
+                            platform=project.source,
+                            project=project.name,
+                            title=mr.title,
+                            author=mr.author.username,
+                            merged_at=mr.merged_at.isoformat(),
+                            commit_sha=mr.commit_sha,
+                        )
+                    )
+
+        return changes
+
+    def _find_tag(self, tags: Optional[List[Tag]], version_tag: str) -> Optional[Tag]:
+        if not tags:
+            return None
+        for tag in tags:
+            if tag.name == version_tag:
+                return tag
+        return None

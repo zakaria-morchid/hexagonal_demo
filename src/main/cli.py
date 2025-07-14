@@ -9,6 +9,7 @@ from infrastructure.providers.gitlab import GitLabProvider
 from infrastructure.providers.github import GitHubProvider
 from infrastructure.presenters.console import ConsolePresenter
 from interfaces.cli.merge_request_controller import MergeRequestController
+from domain.usecases.list_pending_changes import ListPendingChangesForRelease
 
 
 def parse_args():
@@ -31,6 +32,11 @@ def run_cli():
 
     MergeRequestController(GitLabProvider(gl), presenter).run(username=args.username)
     MergeRequestController(GitHubProvider(gh), presenter).run(username=args.username)
+
+    ListPendingChangesForRelease(GitLabProvider(gl), presenter).execute(
+        since_version="v1.0.0", target_version="v1.0.1"
+    )
+    # ListPendingChangesForRelease(GitHubProvider(gh), presenter).execute(since_version="v1.0.0", target_version="v1.0.1")
 
 
 if __name__ == "__main__":

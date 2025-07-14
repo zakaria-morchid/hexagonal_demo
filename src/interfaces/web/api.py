@@ -16,7 +16,9 @@ app = FastAPI()
 
 
 @app.get("/merge-requests", response_model=List[MergeRequest])
-def list_merge_requests(username: Optional[str] = Query(default=None)) -> List[MergeRequest]:
+def list_merge_requests(
+    username: Optional[str] = Query(default=None),
+) -> List[MergeRequest]:
     """
     Liste les merge requests.
     """

@@ -13,7 +13,9 @@ class MergeRequestController:
     Classe pour le contrôleur de MergeRequest.
     """
 
-    def __init__(self, provider: IMergeRequestProvider, presenter: IMergeRequestPresenter):
+    def __init__(
+        self, provider: IMergeRequestProvider, presenter: IMergeRequestPresenter
+    ):
         self.use_case = ListMergeRequests(provider, presenter)
 
     def run(self, username=None):

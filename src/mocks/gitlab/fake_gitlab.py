@@ -32,6 +32,8 @@ class FakeGitlabMergeRequest:
         self.author = mr.author
         # On prépare les données dans le format attendu par python-gitlab
         self._reviewers = mr.reviewers
+        self.merged_at = mr.merged_at
+        self.commit_sha = mr.commit_sha
 
     @property
     def approvals(self):
@@ -74,6 +76,8 @@ class FakeGitlabProject:
         self.mergerequests = FakeMergeRequestManager(
             [FakeGitlabMergeRequest(mr) for mr in project.mergerequests]
         )
+        self.tags = project.tags
+        self.source = project.source
 
 
 class FakeProjectManager:

@@ -4,7 +4,7 @@ Module principal pour le cas d’usage de listing des changements en attente.
 
 # pylint: disable=too-few-public-methods
 from abc import ABC, abstractmethod
-from domain.ports.presenter import IPresenter
+from domain.ports.presenter import IPendingChangesPresenter
 from domain.ports.pending_changes_provider import IPendingChangesProvider
 from domain.models.release import PendingChanges
 
@@ -26,7 +26,9 @@ class ListPendingChangesForRelease(IListPendingChangesForRelease):
     Classe pour le cas d’usage de listing des changements en attente.
     """
 
-    def __init__(self, provider: IPendingChangesProvider, presenter: IPresenter):
+    def __init__(
+        self, provider: IPendingChangesProvider, presenter: IPendingChangesPresenter
+    ):
         self.provider = provider
         self.presenter = presenter
 
@@ -35,7 +37,6 @@ class ListPendingChangesForRelease(IListPendingChangesForRelease):
         Exécute le cas d’usage de listing des changements en attente.
         """
         changes = self.provider.list_merged_changes_since(since_version)
-        self.presenter.present(changes)
-        self.presenter.present(
+        self.presenter.present_pending_changes(
             PendingChanges(target_version=target_version, changes=changes)
         )
