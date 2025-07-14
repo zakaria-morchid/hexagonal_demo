@@ -38,6 +38,9 @@ class GitHubProvider(IMergeRequestProvider):
                     )
 
     def list_merged_changes_since(self, version_tag: str) -> List[Change]:
+        """
+        Liste les changements fusionnés depuis une version spécifique.
+        """
         changes: List[Change] = []
 
         for repo in self.client.get_user().get_repos():

@@ -64,7 +64,9 @@ def _generate_commit_sha(length=40) -> str:
 
 
 # Générateur de MergeRequest avec variations
-def generate_merge_requests(project_id: int, count: int, state: Optional[MergeRequestState] = None) -> list[MergeRequest]:
+def generate_merge_requests(
+    project_id: int, count: int, state: Optional[MergeRequestState] = None
+) -> list[MergeRequest]:
     """
     Génère une liste de MergeRequest pour un projet donné.
     """
@@ -89,7 +91,6 @@ def generate_merge_requests(project_id: int, count: int, state: Optional[MergeRe
             Reviewer(user=choice(users), approved=bool(randint(0, 1)))
             for _ in range(randint(1, 3))
         ]
-
 
         if state is None:
             state = choice(

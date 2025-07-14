@@ -30,13 +30,15 @@ def run_cli():
     args = parse_args()
     presenter = ConsolePresenter()
 
-    # MergeRequestController(GitLabProvider(gl), presenter).run(username=args.username)
-    # MergeRequestController(GitHubProvider(gh), presenter).run(username=args.username)
+    MergeRequestController(GitLabProvider(gl), presenter).run(username=args.username)
+    MergeRequestController(GitHubProvider(gh), presenter).run(username=args.username)
 
     ListPendingChangesForRelease(GitLabProvider(gl), presenter).execute(
         since_version="v1.0.0", target_version="v1.0.1"
     )
-    ListPendingChangesForRelease(GitHubProvider(gh), presenter).execute(since_version="v1.0.0", target_version="v1.0.1")
+    ListPendingChangesForRelease(GitHubProvider(gh), presenter).execute(
+        since_version="v1.0.0", target_version="v1.0.1"
+    )
 
 
 if __name__ == "__main__":

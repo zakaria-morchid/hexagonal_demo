@@ -53,7 +53,7 @@ class FakeGithubRepo:
         Retourne les pulls.
         """
         return self._pulls
-    
+
     def get_tags(self):
         """
         Retourne les tags.

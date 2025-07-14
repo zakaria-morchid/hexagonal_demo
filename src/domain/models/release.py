@@ -2,7 +2,7 @@
 Module principal pour les modèles de release.
 """
 
-# pylint: disable=missing-class-docstring
+# pylint: disable=missing-class-docstring, too-many-instance-attributes
 from dataclasses import dataclass
 from datetime import datetime
 from typing import List
